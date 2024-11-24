@@ -8,18 +8,18 @@ public class subSt {
     public static void main(String[] args){
         int k = 3;
         String p = "welcometojava";
-         List<String> substrings = IntStream.range(0, p.length() - k + 1)
+         List<String> substrings = IntStream.range(0, p.length()-k+1)
                 .mapToObj(i -> p.substring(i, i + k))                   
                 .collect(Collectors.toList());
          substrings.forEach(System.out::println);       
 
-         String min = IntStream.range(0, p.length()-k)
+         String min = IntStream.range(0, p.length()-k+1)
                                .mapToObj(i -> p.substring(i,i+k))
-                               .min(String::compareTo)
+                               .min(String::compareToIgnoreCase)
                                .orElse("");
-        String max = IntStream.range(0, p.length()-(k+1))
+        String max = IntStream.range(0, p.length()-k+1)
                                .mapToObj(i -> p.substring(i,i+k))
-                               .max(String::compareTo)
+                               .max(String::compareToIgnoreCase)
                                .orElse(""); 
          System.out.println();                       
          System.out.println(min); 
