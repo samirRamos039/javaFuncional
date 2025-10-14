@@ -23,6 +23,9 @@ public class hackerranks {
         String np = sb.reverse().toString();
         String p = np.split(" ").toString();
         System.out.println(p);
+
+        String invertido = new StringBuilder(palabra).reverse().toString();
+        System.out.println(invertido);
         
     }
 };
