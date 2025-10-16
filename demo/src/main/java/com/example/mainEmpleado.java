@@ -4,7 +4,15 @@ import java.util.List;
 
 public class mainEmpleado {
     
-    public record Empleado(String nombre, String area, double salario, int aniosDeServicio){}
+    public record Empleado(String nombre, String area, double salario, int aniosDeServicio){
+
+        public boolean esSenior() {
+        return aniosDeServicio > 5;
+    }
+       public String UperCase() {
+        retu
+       }
+    }
 
     public static void main(String[] args) {
         List<Empleado> empleados = List.of(
