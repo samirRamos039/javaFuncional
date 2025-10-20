@@ -26,26 +26,19 @@ public class Transformar {
                 
         System.out.println("Cuadrados de pares: " + cuadradosPares);
 
-
+//=========================================================================================================
          List<Integer> numeros1 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
-        // 🎯 ENFOQUE IMPERATIVO - Especificar CÓMO hacerlo
+        // 
         List<Integer> cuadradosPares1 = new ArrayList<>();
         int resultado1 = 0;
         
-        // Ciclo for tradicional - especificamos cada paso
         for (int i = 0; i < numeros1.size(); i++) {
             int numero = numeros1.get(i);
             
-            // Paso 1: Verificar si es par
             if (numero % 2 == 0) {
-                // Paso 2: Elevar al cuadrado
                 int cuadrado = numero * numero;
-                
-                // Paso 3: Agregar a la lista
                 cuadradosPares1.add(cuadrado);
-                
-                // Paso 4: Acumular en la suma
                 resultado1 += cuadrado;
             }
         }
