@@ -1,17 +1,19 @@
 package com.example;
 
-import java.com.example.model.Area;
-import java.com.example.model.Empleado;
-import java.com.example.model.RegistroTurno;
-import java.com.example.model.TipoTurno;
+import com.example.Area;
+import com.example.Empleado;
+import com.example.RegistroTurno;
+import com.example.TipoTurno;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.*;
+
 public class Reporte{
 
-    public static void main(String[]arg){
-
-        List<Empleado> personal = List.of(
+    static List<Empleado> personal = List.of(
     new Empleado("E01", "Ana Gómez", Area.CARDIOLOGIA, 25.0),
     new Empleado("E02", "Luis Vera", Area.CIRUGIA, 45.0),
     new Empleado("E03", "Carlos Rivas", Area.PEDIATRIA, 28.0),
@@ -29,7 +31,7 @@ public class Reporte{
     new Empleado("E15", "Gabriela Paz", Area.RADIOLOGIA, 34.5)
 );
 
-List<RegistroTurno> registrosMes = List.of(
+    static List<RegistroTurno> registrosMes = List.of(
     new RegistroTurno("E01", LocalDate.of(2024, 10, 1), TipoTurno.NOCHE, 12),
     new RegistroTurno("E02", LocalDate.of(2024, 10, 1), TipoTurno.DIA, 8),
     new RegistroTurno("E01", LocalDate.of(2024, 10, 2), TipoTurno.AUSENCIA, 0),
@@ -46,19 +48,37 @@ List<RegistroTurno> registrosMes = List.of(
     new RegistroTurno("E01", LocalDate.of(2024, 10, 9), TipoTurno.DIA, 8),
     new RegistroTurno("E02", LocalDate.of(2024, 10, 10), TipoTurno.DIA, 8)
 );
-
-
-public static Map<String, Integer> horasTrabajadasPorEmpleado = registrosMes.stream()
+ //================================HORAS TRABAJADAS================================   
+    public static  Map<String, Integer> horasTrabajadas = registrosMes.stream()
         .filter(registro -> registro.tipo() != TipoTurno.AUSENCIA)
         .collect(Collectors.groupingBy(
             RegistroTurno::empleadoId,
             Collectors.summingInt(RegistroTurno::horas)
         ));
-        
-         System.out.println("=== MAPA DE HORAS TRABAJADAS POR EMPLEADO ===");
-        System.out.println("Tipo: " + horasTrabajadasPorEmpleado.getClass().getSimpleName());
-        System.out.println("Contenido: " + horasTrabajadasPorEmpleado);
 
+//===================================TURNOS POR GUARDIA==============================
+
+  public static List<String> TurnoGuardia = registrosMes.stream()
+       .filter(emp -> emp.tipo() == TipoTurno.GUARDIA)
+       .map(RegistroTurno::empleadoId)
+       .distinct()
+       .map(Id-> personal.stream()
+               .filter(emp -> emp.id().equals(Id)))
+               .findFirst()
+               .map(Empleado::nombre)
+               .orElse()
+               .toList();
+
+
+    public static void main(String[]arg){
+
+        horasTrabajadas.forEach((id, horas) -> 
+            System.out.println(id + " = " + horas + " horas"));
+        
+        System.out.println();
+
+        TurnoGuardia.forEach(nombre -> 
+                System.out.println(nombre));
 
     }
 }
