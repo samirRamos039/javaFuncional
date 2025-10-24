@@ -100,18 +100,19 @@ public class EmpleadoStream {
         entry -> entry.getValue().map(Map.Entry::getKey)
     ));
   //================================== HORAS POR AREA Y TIPO DE TURNO====================  
-    public static Map<area,Map<turno,hora>> horasArea = personal.stream()
+    public static Map<Area,Map<TipoTurno,Integer>> horasArea = personal.stream()
                           .collect(Collectors.groupingBy(
                             Empleado::area,
                                   Collectors.flatMapping(emp -> registrosMes.stream()
-                                            .filter(r -> emp.id().equals(r.EmpleadoId()))
-                                            .map(r -> Map.entry((r.tipo),(r.hora))),
+                                            .filter(r -> r.empleadoId().equals(emp.id()))
+                                            .map(r -> Map.entry((r.tipo()),(r.horas()))),
                                           
                                      Collectors.groupingBy(
-                                        RegistroTurno::tipo,
+                                        Map.Entry::getKey,
+                                        Collectors.summingInt(Map.Entry::getValue)
                                            
                                      )     
-                          ))
+                          )));
   //================================== TURNOS CONSECUTIVOS ==============================
   //================================== INCONSISTENCIAS ==================================
   //================================== PRODUCTIVIDAD ====================================
@@ -133,7 +134,7 @@ public class EmpleadoStream {
              });
              System.out.println();
              System.out.println();*/
-             HORAS_POR_AREA_Y_TURNO.forEach((area,trunoMap)->{
+             horasArea.forEach((area,trunoMap)->{
                 trunoMap.forEach((turno2,hora) -> {
                      System.out.println(area+"-"+turno2+"-"+hora);
                 });
